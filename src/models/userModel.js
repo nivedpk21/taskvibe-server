@@ -20,8 +20,5 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// index
-userSchema.index({ email: 1 });
-
 const userModel = mongoose.model("user_tb", userSchema);
 module.exports = userModel;
