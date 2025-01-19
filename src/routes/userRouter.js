@@ -13,6 +13,7 @@ const userTaskLogModel = require("./../models/userTaskLogModel");
 const userTaskSessionModel = require("./../models/userTaskSessionModel");
 const userTransactionLogModel = require("./../models/userTransactionLogModel");
 const taskReportModel = require("../models/taskReportModel");
+const userMessageModel = require("../models/userMessageModel");
 
 const userRouter = express.Router();
 
@@ -933,4 +934,26 @@ userRouter.get("/delete-task/:taskId", checkAuth, checkRole(["user", "admin"]), 
   }
 });
 
+// POST CONTACT FORM MESSAGES
+userRouter.post("/post-message", async (req, res, next) => {
+  const { name, email, message } = req.body;
+  console.log(name,email,message);
+  
+  try {
+    const messageData = new userMessageModel({
+      name,
+      email,
+      message,
+    });
+    await messageData.save();
+
+    return res.status(200).json({
+      message: "message submitted successfully",
+      success: true,
+      error: false,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = userRouter;
