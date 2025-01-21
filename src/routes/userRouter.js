@@ -672,10 +672,11 @@ userRouter.get(
       const payPerView = parseFloat(task.payPerView.toString());
       const fee = (payPerView / 100) * 25;
       const deductableAmount = payPerView + fee;
+      const upDateSetAmount = currentAmount - deductableAmount;
 
       task.hits += 1; // Increase task hits
       task.targetViews -= 1; // Decrease target views
-      task.setAmount = mongoose.Types.Decimal128.fromString((currentAmount - deductableAmount).toString()); // Deduct the fee from task amount
+      task.setAmount = mongoose.Types.Decimal128.fromString(upDateSetAmount.toString()); // Deduct the fee from task amount
       await task.save();
 
       // update task log completed
@@ -937,8 +938,8 @@ userRouter.get("/delete-task/:taskId", checkAuth, checkRole(["user", "admin"]), 
 // POST CONTACT FORM MESSAGES
 userRouter.post("/post-message", async (req, res, next) => {
   const { name, email, message } = req.body;
-  console.log(name,email,message);
-  
+  console.log(name, email, message);
+
   try {
     const messageData = new userMessageModel({
       name,
