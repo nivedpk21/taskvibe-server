@@ -179,7 +179,7 @@ userRouter.post("/signin", async (req, res, next) => {
         sessionId: sessionId,
       },
       process.env.JWT_SECRET,
-      { expiresIn: "24h" }
+      { expiresIn: "168h" } // 7days
     );
 
     // Return success response
